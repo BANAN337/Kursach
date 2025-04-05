@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class GridCreator : MonoBehaviour
@@ -10,14 +9,15 @@ public class GridCreator : MonoBehaviour
     [SerializeField] private Vector3Int startPosition;
     [SerializeField] private int pointDistance;
     public Point[,,] Grid;
-    
+
 
     private void Start()
     {
         CreateGrid();
     }
 
-    public void SetValues(int gridWidth, int gridLength, int gridHeight, Vector3Int startPosition, int pointDistance, Point pointPrefab)
+    public void SetValues(int gridWidth, int gridLength, int gridHeight, Vector3Int startPosition, int pointDistance,
+        Point pointPrefab)
     {
         this.gridWidth = gridWidth;
         this.gridLength = gridLength;
@@ -43,10 +43,12 @@ public class GridCreator : MonoBehaviour
                 {
                     Point point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
                         Quaternion.identity);
-                    Grid[i,j,k] = point;
+                    point.IsValid = !Physics.CheckSphere(point.transform.position, 1);
+                    Grid[i, j, k] = point;
                 }
             }
         }
+
         AddNeighbours();
     }
 
@@ -62,22 +64,19 @@ public class GridCreator : MonoBehaviour
                     {
                         if (i + nearbyPoint >= 0 && i + nearbyPoint < gridWidth)
                         {
-                            Grid[i,j,k].neighbours.Add(Grid[i + nearbyPoint,j,k]);
+                            Grid[i, j, k].neighbours.Add(Grid[i + nearbyPoint, j, k]);
                         }
 
                         if (j + nearbyPoint >= 0 && j + nearbyPoint < gridHeight)
                         {
-                            Grid[i,j,k].neighbours.Add(Grid[i,j + nearbyPoint,k]);
+                            Grid[i, j, k].neighbours.Add(Grid[i, j + nearbyPoint, k]);
                         }
 
                         if (k + nearbyPoint >= 0 && k + nearbyPoint < gridLength)
                         {
-                            Grid[i,j,k].neighbours.Add(Grid[i,j,k + nearbyPoint]);
+                            Grid[i, j, k].neighbours.Add(Grid[i, j, k + nearbyPoint]);
                         }
-                        
-                        //Grid[i,j,k].PrintNeighbourCoordinates(i,j,k);
                     }
-
                 }
             }
         }
