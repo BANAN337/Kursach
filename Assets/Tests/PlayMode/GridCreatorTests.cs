@@ -23,7 +23,7 @@ namespace Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator AddNeighbours_CorrectNumberOfNeighbouringPoints()
+        public IEnumerator AddNeighboursTpPoints_CorrectNumberOfNeighbouringPoints()
         {
             var gameObject = new GameObject();
             var gridCreator = gameObject.AddComponent<GridCreator>();
@@ -33,9 +33,20 @@ namespace Tests.PlayMode
             
             yield return new WaitForSeconds(1);
             
-            Assert.AreEqual(3, gridCreator.Grid[0,0,0].neighbours.Count);
-            Assert.AreEqual(6, gridCreator.Grid[1,1,1].neighbours.Count);
-            Assert.AreEqual(3, gridCreator.Grid[2,2,2].neighbours.Count);
+            Assert.AreEqual(3, gridCreator.AddNeighboursToPoints(gridCreator.Grid[0,0,0]).Count);
+            Assert.AreEqual(6, gridCreator.AddNeighboursToPoints(gridCreator.Grid[1,1,1]).Count);
+            Assert.AreEqual(3, gridCreator.AddNeighboursToPoints(gridCreator.Grid[2,2,2]).Count);
+        }
+
+        [UnityTest]
+        public IEnumerator Awake_OnlyOneInstanceIsPresent()
+        {
+            var firstGrid = new GameObject().AddComponent<GridCreator>();
+            var secondGrid = new GameObject().AddComponent<GridCreator>();
+            
+            yield return new WaitForSeconds(1);
+            
+            Assert.IsNull(secondGrid);
         }
     }
 }

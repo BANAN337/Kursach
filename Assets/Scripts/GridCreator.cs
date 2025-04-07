@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class GridCreator : MonoBehaviour
@@ -61,37 +59,6 @@ public class GridCreator : MonoBehaviour
                     point.IsValid = !Physics.CheckSphere(point.transform.position, 1);
                     Grid[i, j, k] = point;
                     point.indexes = new Vector3Int(i, j, k);
-                }
-            }
-        }
-        //AddNeighbours();
-    }
-
-    private void AddNeighbours()
-    {
-        for (var i = 0; i < gridWidth; i++)
-        {
-            for (var j = 0; j < gridHeight; j++)
-            {
-                for (var k = 0; k < gridLength; k++)
-                {
-                    for (var nearbyPoint = -1; nearbyPoint <= 1; nearbyPoint += 2)
-                    {
-                        if (i + nearbyPoint >= 0 && i + nearbyPoint < gridWidth)
-                        {
-                            Grid[i, j, k].neighbours.Add(Grid[i + nearbyPoint, j, k]);
-                        }
-
-                        if (j + nearbyPoint >= 0 && j + nearbyPoint < gridHeight)
-                        {
-                            Grid[i, j, k].neighbours.Add(Grid[i, j + nearbyPoint, k]);
-                        }
-
-                        if (k + nearbyPoint >= 0 && k + nearbyPoint < gridLength)
-                        {
-                            Grid[i, j, k].neighbours.Add(Grid[i, j, k + nearbyPoint]);
-                        }
-                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ public class Pathfinding : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(1);
-        startPoint = GridCreator.Instance.Grid[1,1,1];
+        startPoint = GridCreator.Instance.Grid[1,1,1 ];
         endPoint = GridCreator.Instance.Grid[4,4,4];
         FindPath();
     }
