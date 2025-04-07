@@ -270,9 +270,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointPrefab: {fileID: 784771260397185162, guid: 7f11f45037784a74c9b95bd25c24ad3f, type: 3}
-  gridWidth: 3
-  gridLength: 3
-  gridHeight: 3
+  gridWidth: 5
+  gridLength: 5
+  gridHeight: 5
   startPosition: {x: 0, y: 0, z: 0}
   pointDistance: 1
 --- !u!4 &318407001
@@ -723,7 +723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1249433048
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class GridCreator : MonoBehaviour
 {
+    public static GridCreator Instance;
     [SerializeField] private Point pointPrefab;
     [SerializeField] private int gridWidth;
     [SerializeField] private int gridLength;
@@ -10,6 +14,17 @@ public class GridCreator : MonoBehaviour
     [SerializeField] private int pointDistance;
     public Point[,,] Grid;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -45,11 +60,11 @@ public class GridCreator : MonoBehaviour
                         Quaternion.identity);
                     point.IsValid = !Physics.CheckSphere(point.transform.position, 1);
                     Grid[i, j, k] = point;
+                    point.indexes = new Vector3Int(i, j, k);
                 }
             }
         }
-
-        AddNeighbours();
+        //AddNeighbours();
     }
 
     private void AddNeighbours()
@@ -80,5 +95,27 @@ public class GridCreator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public List<Point> AddNeighboursToPoints(Point point)
+    {
+        for (var nearbyPoint = -1; nearbyPoint <= 1; nearbyPoint += 2)
+        {
+            if (point.indexes.x + nearbyPoint >= 0 && point.indexes.x + nearbyPoint < gridWidth)
+            {
+                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x + nearbyPoint, point.indexes.y, point.indexes.z]);
+            }
+
+            if (point.indexes.y + nearbyPoint >= 0 && point.indexes.y + nearbyPoint < gridHeight)
+            {
+                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x, point.indexes.y + nearbyPoint, point.indexes.z]);
+            }
+
+            if (point.indexes.z + nearbyPoint >= 0 && point.indexes.z + nearbyPoint < gridLength)
+            {
+                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x, point.indexes.y, point.indexes.z + nearbyPoint]);
+            }
+        }
+        return point.neighbours;
     }
 }
