@@ -8,31 +8,25 @@ public class Pathfinding : MonoBehaviour
 {
     [SerializeField] private Point startPoint;
     [SerializeField] private Point endPoint;
+    public List<Point> ShortestPath { get; private set; }
 
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(1);
-        startPoint = GridCreator.Instance.Grid[1,1,1 ];
-        endPoint = GridCreator.Instance.Grid[4,4,4];
-        FindPath();
+        //FindPath(startPoint, endPoint);
     }
 
-    private void Update()
+    private void FindPath(Point start, Point end)
     {
-        
-    }
-
-    private void FindPath()
-    {
-        var openSet = new List<Point>();
+        var openSet = new List<Point> { start };
         var closedSet = new HashSet<Point>();
-        
-        openSet.Add(startPoint);
+
+        start.hScore = DistanceBetweenPoints(start, end);
 
         while (openSet.Count > 0)
         {
             var currentPoint = openSet[0];
-            for (int i = 1; i < openSet.Count; i++)
+            for (var i = 1; i < openSet.Count; i++)
             {
                 if (openSet[i].FScore < currentPoint.FScore || openSet[i].FScore == currentPoint.FScore)
                 {
@@ -42,13 +36,15 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
             }
-            openSet.Remove(currentPoint);
-            closedSet.Add(currentPoint);
-            if (currentPoint == endPoint)
+
+            if (currentPoint == end)
             {
-                ReconstructPath(startPoint, endPoint);
+                ShortestPath = ReconstructPath(start, end);
                 return;
             }
+            
+            openSet.Remove(currentPoint);
+            closedSet.Add(currentPoint);
 
             foreach (var neighbour in GridCreator.Instance.AddNeighboursToPoints(currentPoint))
             {
@@ -56,15 +52,13 @@ public class Pathfinding : MonoBehaviour
                 {
                     continue;
                 }
-
-                var newCostToNeighbour = currentPoint.gScore + DistanceBetweenPoints(currentPoint, neighbour);
-
-                if (newCostToNeighbour < neighbour.gScore || !openSet.Contains(neighbour))
+                
+                var temporaryGScore = currentPoint.gScore + DistanceBetweenPoints(currentPoint, neighbour);
+                if (temporaryGScore < neighbour.gScore || !closedSet.Contains(neighbour))
                 {
-                    neighbour.gScore = newCostToNeighbour;
-                    neighbour.hScore = DistanceBetweenPoints(neighbour, endPoint);
+                    neighbour.gScore = temporaryGScore;
+                    neighbour.hScore = DistanceBetweenPoints(neighbour, end);
                     neighbour.previousPoint = currentPoint;
-
                     if (!openSet.Contains(neighbour))
                     {
                         openSet.Add(neighbour);
@@ -85,15 +79,17 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentPoint);
             currentPoint = currentPoint.previousPoint;
         }
-        startPoint.material.color = Color.black;
+
+        //startPoint.material.color = Color.black; error comes out at this point during testing
         path.Reverse();
-        
+
         return path;
     }
-    
+
     private int DistanceBetweenPoints(Point pointA, Point pointB)
     {
-         return (int)MathF.Ceiling(Math.Abs(pointA.transform.position.x - pointB.transform.position.x) + Math.Abs(pointA.transform.position.y -
+        return (int)MathF.Ceiling(Math.Abs(pointA.transform.position.x - pointB.transform.position.x) + Math.Abs(
+            pointA.transform.position.y -
             pointB.transform.position.y) + Math.Abs(pointA.transform.position.z - pointB.transform.position.z));
     }
 }
