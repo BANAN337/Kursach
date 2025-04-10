@@ -14,7 +14,7 @@ namespace Tests.PlayMode
         {
             var gameObject = new GameObject();
             var gameObject1 = new GameObject();
-            
+
             var pathfindingType = typeof(Pathfinding);
 
             var gridCreator = gameObject1.AddComponent<GridCreator>();
@@ -23,17 +23,17 @@ namespace Tests.PlayMode
             gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
                 AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
             gridCreator.PublicCreateGrid();
-            
+
             yield return new WaitForSeconds(1);
-            
+
             var findPathMethod = pathfindingType.GetMethod("FindPath", BindingFlags.NonPublic | BindingFlags.Instance);
             var startPoint = gridCreator.Grid[0, 0, 0];
-            var endPoint = gridCreator.Grid[4,4,4] ;
+            var endPoint = gridCreator.Grid[4, 4, 4];
             findPathMethod?.Invoke(pathfinding, new object[] { startPoint, endPoint });
 
             yield return new WaitForSeconds(1);
 
-            Assert.AreEqual(12, pathfinding.ShortestPath.Count);
+            Assert.AreEqual(4, pathfinding.ShortestPath.Count);
         }
     }
 }

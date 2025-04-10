@@ -1,41 +1,52 @@
 using System.Collections;
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.TestTools;
+using Assert = UnityEngine.Assertions.Assert;
 
 namespace Tests.PlayMode
 {
     public class GridCreatorTests
     {
+        [ExcludeFromCoverage]
+        public static IEnumerable<(Vector3Int,int)> AddNeighboursToPointsData()
+        {
+            yield return (new Vector3Int(0, 0, 0), 7);
+            yield return (new Vector3Int(1, 1, 1), 26);
+            yield return (new Vector3Int(2, 2, 2), 7);
+        }
+
         [UnityTest]
         public IEnumerator CreateGrid_CorrectNumberOfPoints()
         {
             var gameObject = new GameObject();
             var gridCreator = gameObject.AddComponent<GridCreator>();
-            gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1, AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
+            gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1,
+                AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
 
             gridCreator.PublicCreateGrid();
 
             yield return new WaitForSeconds(1);
-            
+
             Assert.AreEqual(27, gridCreator.Grid.Length);
         }
 
         [UnityTest]
-        public IEnumerator AddNeighboursTpPoints_CorrectNumberOfNeighbouringPoints()
+        public IEnumerator AddNeighboursToPoints_CorrectNumberOfNeighbouringPoints(
+            [ValueSource(nameof(AddNeighboursToPointsData))] (Vector3Int, int) data)
         {
             var gameObject = new GameObject();
             var gridCreator = gameObject.AddComponent<GridCreator>();
-            gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1, AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
+            gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1,
+                AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
 
             gridCreator.PublicCreateGrid();
-            
+
             yield return new WaitForSeconds(1);
             
-            Assert.AreEqual(3, gridCreator.AddNeighboursToPoints(gridCreator.Grid[0,0,0]).Count);
-            Assert.AreEqual(6, gridCreator.AddNeighboursToPoints(gridCreator.Grid[1,1,1]).Count);
-            Assert.AreEqual(3, gridCreator.AddNeighboursToPoints(gridCreator.Grid[2,2,2]).Count);
+            Assert.AreEqual(data.Item2, gridCreator.AddNeighboursToPoints(gridCreator.Grid[data.Item1.x, data.Item1.y, data.Item1.z]).Count);
         }
 
         [UnityTest]
@@ -43,9 +54,9 @@ namespace Tests.PlayMode
         {
             var firstGrid = new GameObject().AddComponent<GridCreator>();
             var secondGrid = new GameObject().AddComponent<GridCreator>();
-            
+
             yield return new WaitForSeconds(1);
-            
+
             Assert.IsNull(secondGrid);
         }
     }

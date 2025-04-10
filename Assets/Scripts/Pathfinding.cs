@@ -88,8 +88,8 @@ public class Pathfinding : MonoBehaviour
 
     private int DistanceBetweenPoints(Point pointA, Point pointB)
     {
-        return (int)MathF.Ceiling(Math.Abs(pointA.transform.position.x - pointB.transform.position.x) + Math.Abs(
-            pointA.transform.position.y -
-            pointB.transform.position.y) + Math.Abs(pointA.transform.position.z - pointB.transform.position.z));
+        return (int)MathF.Ceiling(Math.Abs(pointA.indexes.x - pointB.indexes.x) + Math.Abs(
+            pointA.indexes.y -
+            pointB.indexes.y) + Math.Abs(pointA.indexes.z - pointB.indexes.z));
     }
 }

@@ -47,7 +47,7 @@ public class GridCreator : MonoBehaviour
 
     private void CreateGrid()
     {
-        Grid = new Point[gridWidth, gridHeight, gridHeight];
+        Grid = new Point[gridWidth, gridHeight, gridLength];
         for (var i = 0; i < gridWidth; i++)
         {
             for (var j = 0; j < gridHeight; j++)
@@ -66,21 +66,24 @@ public class GridCreator : MonoBehaviour
 
     public List<Point> AddNeighboursToPoints(Point point)
     {
-        for (var nearbyPoint = -1; nearbyPoint <= 1; nearbyPoint += 2)
+        for (var i = -1; i <= 1; i++)
         {
-            if (point.indexes.x + nearbyPoint >= 0 && point.indexes.x + nearbyPoint < gridWidth)
+            for (var j = -1; j <= 1; j++)
             {
-                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x + nearbyPoint, point.indexes.y, point.indexes.z]);
-            }
+                for (var k = -1; k <= 1; k++)
+                {
+                    if (i == 0 && j == 0 && k == 0)
+                    {
+                        continue;
+                    }
 
-            if (point.indexes.y + nearbyPoint >= 0 && point.indexes.y + nearbyPoint < gridHeight)
-            {
-                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x, point.indexes.y + nearbyPoint, point.indexes.z]);
-            }
-
-            if (point.indexes.z + nearbyPoint >= 0 && point.indexes.z + nearbyPoint < gridLength)
-            {
-                Grid[point.indexes.x, point.indexes.y, point.indexes.z].neighbours.Add(Grid[point.indexes.x, point.indexes.y, point.indexes.z + nearbyPoint]);
+                    if (point.indexes.x + i < gridWidth && point.indexes.x + i >= 0 &&
+                        point.indexes.y + j < gridHeight && point.indexes.y + j >= 0 &&
+                        point.indexes.z + k < gridLength && point.indexes.z + k >= 0)
+                    {
+                        point.neighbours.Add(Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k]);
+                    }
+                }
             }
         }
         return point.neighbours;
