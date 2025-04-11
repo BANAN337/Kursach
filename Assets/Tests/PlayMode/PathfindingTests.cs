@@ -12,13 +12,10 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator FindPath_CorrectNumberOfPointsInShortestPath()
         {
-            var gameObject = new GameObject();
-            var gameObject1 = new GameObject();
-
             var pathfindingType = typeof(Pathfinding);
 
-            var gridCreator = gameObject1.AddComponent<GridCreator>();
-            var pathfinding = gameObject.AddComponent<Pathfinding>();
+            var gridCreator = new GameObject().AddComponent<GridCreator>();
+            var pathfinding = new GameObject().AddComponent<Pathfinding>();
 
             gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
                 AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));

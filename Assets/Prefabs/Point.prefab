@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3302923106262714209}
   - component: {fileID: 1045441378503693256}
   - component: {fileID: 784771260397185162}
+  - component: {fileID: -636956840446541618}
   m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
@@ -99,7 +100,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d6f43d8e8e6ca4985aa7ddf69bbd02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  material: {fileID: 0}
+  previousPoint: {fileID: 0}
   neighbours: []
   hScore: 0
   gScore: 0
   indexes: {x: 0, y: 0, z: 0}
+--- !u!135 &-636956840446541618
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7788242379866805144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

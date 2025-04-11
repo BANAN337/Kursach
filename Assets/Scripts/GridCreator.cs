@@ -56,7 +56,7 @@ public class GridCreator : MonoBehaviour
                 {
                     Point point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
                         Quaternion.identity);
-                    point.IsValid = !Physics.CheckSphere(point.transform.position, 1);
+                    point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1);
                     Grid[i, j, k] = point;
                     point.indexes = new Vector3Int(i, j, k);
                 }

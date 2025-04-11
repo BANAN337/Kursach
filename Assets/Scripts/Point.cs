@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    private bool _isValid = true;
+    private bool _isNotNotValid;
     public Material material;
     public Point previousPoint;
     public List<Point> neighbours;
@@ -15,16 +15,17 @@ public class Point : MonoBehaviour
 
     public int FScore => gScore + hScore;
 
-    public bool IsValid
+    public bool IsNotValid
     {
-        get => _isValid;
+        get => _isNotNotValid;
         set
         {
-            if (value != _isValid)
+            if (value != _isNotNotValid)
             {
                 OnIsValidChanged?.Invoke();
             }
-            _isValid = value;
+
+            _isNotNotValid = value;
         }
     }
 

@@ -1,8 +1,6 @@
 using UnityEngine;
 
-public class SeekingTarget : MonoBehaviour
+public class SeekingTarget : Target
 {
-    private Point _startingPoint;
-    private Point _currentPoint;
-    private Point _targetPoint;
+    
 }

@@ -21,8 +21,7 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator CreateGrid_CorrectNumberOfPoints()
         {
-            var gameObject = new GameObject();
-            var gridCreator = gameObject.AddComponent<GridCreator>();
+            var gridCreator = new GameObject().AddComponent<GridCreator>();
             gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1,
                 AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
 
@@ -37,8 +36,7 @@ namespace Tests.PlayMode
         public IEnumerator AddNeighboursToPoints_CorrectNumberOfNeighbouringPoints(
             [ValueSource(nameof(AddNeighboursToPointsData))] (Vector3Int, int) data)
         {
-            var gameObject = new GameObject();
-            var gridCreator = gameObject.AddComponent<GridCreator>();
+            var gridCreator = new GameObject().AddComponent<GridCreator>();
             gridCreator.SetValues(3, 3, 3, new Vector3Int(0, 0, 0), 1,
                 AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
 

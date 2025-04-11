@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Pathfinding : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class Pathfinding : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(1);
-        //FindPath(startPoint, endPoint);
+        FindPath(GridCreator.Instance.Grid[0,0,0], GridCreator.Instance.Grid[4,4,4]);
     }
 
     private void FindPath(Point start, Point end)
@@ -48,7 +47,7 @@ public class Pathfinding : MonoBehaviour
 
             foreach (var neighbour in GridCreator.Instance.AddNeighboursToPoints(currentPoint))
             {
-                if (!neighbour.IsValid || closedSet.Contains(neighbour))
+                if (neighbour.IsNotValid || closedSet.Contains(neighbour))
                 {
                     continue;
                 }
