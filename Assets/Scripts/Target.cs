@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public Point currentPoint;
+    private Point _currentPoint;
 
     public Point GetClosestPoint()
     {
@@ -14,9 +14,9 @@ public class Target : MonoBehaviour
             if (distance < closestDistance && !point.IsNotValid)
             {
                 closestDistance = distance;
-                currentPoint = point;
+                _currentPoint = point;
             }
         }
-        return currentPoint;
+        return _currentPoint;
     }
 }

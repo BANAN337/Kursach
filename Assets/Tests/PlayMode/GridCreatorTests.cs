@@ -44,7 +44,7 @@ namespace Tests.PlayMode
 
             yield return new WaitForSeconds(1);
             
-            Assert.AreEqual(data.Item2, gridCreator.AddNeighboursToPoints(gridCreator.Grid[data.Item1.x, data.Item1.y, data.Item1.z]).Count);
+            Assert.AreEqual(data.Item2, gridCreator.AddNeighboursToPoint(gridCreator.Grid[data.Item1.x, data.Item1.y, data.Item1.z]).Count);
         }
 
         [UnityTest]

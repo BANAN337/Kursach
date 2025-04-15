@@ -10,27 +10,26 @@ namespace Tests.PlayMode
     public class PathfindingTests
     {
         [UnityTest]
-        public IEnumerator FindPath_CorrectNumberOfPointsInShortestPath()
-        {
-            var pathfindingType = typeof(Pathfinding);
+         public IEnumerator FindPath_CorrectNumberOfPointsInShortestPath()
+         { 
+             var gridCreator = new GameObject().AddComponent<GridCreator>();
+        
+             gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+                 AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
+             gridCreator.PublicCreateGrid();
+             
+             var pathfinding = new Pathfinding(gridCreator);
+        
+             yield return new WaitForSeconds(1);
 
-            var gridCreator = new GameObject().AddComponent<GridCreator>();
-            var pathfinding = new GameObject().AddComponent<Pathfinding>();
-
-            gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
-                AssetDatabase.LoadAssetAtPath<Point>(@"Assets/Prefabs/Point.prefab"));
-            gridCreator.PublicCreateGrid();
-
-            yield return new WaitForSeconds(1);
-
-            var findPathMethod = pathfindingType.GetMethod("FindPath", BindingFlags.NonPublic | BindingFlags.Instance);
-            var startPoint = gridCreator.Grid[0, 0, 0];
-            var endPoint = gridCreator.Grid[4, 4, 4];
-            findPathMethod?.Invoke(pathfinding, new object[] { startPoint, endPoint });
-
-            yield return new WaitForSeconds(1);
-
-            Assert.AreEqual(4, pathfinding.ShortestPath.Count);
-        }
+             var startPoint = gridCreator.Grid[0, 0, 0];
+             var endPoint = gridCreator.Grid[4, 4, 4];
+             
+             var shortestPath = pathfinding.FindPath(startPoint, endPoint);
+        
+             yield return new WaitForSeconds(1);
+        
+             Assert.AreEqual(4, shortestPath.Count);
+         }
     }
 }

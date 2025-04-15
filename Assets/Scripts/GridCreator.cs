@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,10 +23,7 @@ public class GridCreator : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Start()
-    {
         CreateGrid();
     }
 
@@ -64,7 +62,7 @@ public class GridCreator : MonoBehaviour
         }
     }
 
-    public List<Point> AddNeighboursToPoints(Point point)
+    public List<Point> AddNeighboursToPoint(Point point)
     {
         for (var i = -1; i <= 1; i++)
         {
@@ -86,6 +84,14 @@ public class GridCreator : MonoBehaviour
                 }
             }
         }
+
         return point.neighbours;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(startPosition + new Vector3(gridWidth-1, gridHeight-1, gridLength-1) / 2,
+            (startPosition + new Vector3(gridWidth-1, gridHeight-1, gridLength-1)) *
+            pointDistance);
     }
 }

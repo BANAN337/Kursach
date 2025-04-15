@@ -1,21 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : MonoBehaviour
+public class Pathfinding
 {
-    [SerializeField] private Point startPoint;
-    [SerializeField] private Point endPoint;
-    public List<Point> ShortestPath { get; private set; }
-
-    private IEnumerator Start()
+    private GridCreator _grid;
+    public Pathfinding(GridCreator grid)
     {
-        yield return new WaitForSeconds(1);
-        FindPath(GridCreator.Instance.Grid[0,0,0], GridCreator.Instance.Grid[4,4,4]);
+        _grid = grid;
     }
-
-    private void FindPath(Point start, Point end)
+    public List<Point> FindPath(Point start, Point end)
     {
         var openSet = new List<Point> { start };
         var closedSet = new HashSet<Point>();
@@ -38,14 +32,13 @@ public class Pathfinding : MonoBehaviour
 
             if (currentPoint == end)
             {
-                ShortestPath = ReconstructPath(start, end);
-                return;
+                return ReconstructPath(start, end);
             }
             
             openSet.Remove(currentPoint);
             closedSet.Add(currentPoint);
 
-            foreach (var neighbour in GridCreator.Instance.AddNeighboursToPoints(currentPoint))
+            foreach (var neighbour in _grid.AddNeighboursToPoint(currentPoint))
             {
                 if (neighbour.IsNotValid || closedSet.Contains(neighbour))
                 {
@@ -65,6 +58,7 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
+        return new List<Point>();
     }
 
     private List<Point> ReconstructPath(Point start, Point end)
