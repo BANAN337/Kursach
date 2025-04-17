@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using Random = System.Random;
+
+[assembly: InternalsVisibleTo("PlayMode")]
 
 public class GridCreator : MonoBehaviour
 {
@@ -27,7 +31,7 @@ public class GridCreator : MonoBehaviour
         CreateGrid();
     }
 
-    public void SetValues(int gridWidth, int gridLength, int gridHeight, Vector3Int startPosition, int pointDistance,
+    internal void SetValues(int gridWidth, int gridLength, int gridHeight, Vector3Int startPosition, int pointDistance,
         Point pointPrefab)
     {
         this.gridWidth = gridWidth;
@@ -38,7 +42,7 @@ public class GridCreator : MonoBehaviour
         this.pointPrefab = pointPrefab;
     }
 
-    public void PublicCreateGrid()
+    internal void PublicCreateGrid()
     {
         CreateGrid();
     }
@@ -52,9 +56,10 @@ public class GridCreator : MonoBehaviour
             {
                 for (var k = 0; k < gridLength; k++)
                 {
-                    Point point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
+                    var point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
                         Quaternion.identity);
-                    point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1);
+                    point.OnIsValidChanged += CreateWall;
+                    point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1) || new Random().Next(0,100) < 10;
                     Grid[i, j, k] = point;
                     point.indexes = new Vector3Int(i, j, k);
                 }
@@ -77,7 +82,8 @@ public class GridCreator : MonoBehaviour
 
                     if (point.indexes.x + i < gridWidth && point.indexes.x + i >= 0 &&
                         point.indexes.y + j < gridHeight && point.indexes.y + j >= 0 &&
-                        point.indexes.z + k < gridLength && point.indexes.z + k >= 0)
+                        point.indexes.z + k < gridLength && point.indexes.z + k >= 0 &&
+                        Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k].IsNotValid == false)
                     {
                         point.neighbours.Add(Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k]);
                     }
@@ -88,10 +94,17 @@ public class GridCreator : MonoBehaviour
         return point.neighbours;
     }
 
+    private void CreateWall(Point point)
+    {
+        var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        wall.transform.position = point.transform.position;
+        wall.transform.localScale *= pointDistance;
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(startPosition + new Vector3(gridWidth-1, gridHeight-1, gridLength-1) / 2,
-            (startPosition + new Vector3(gridWidth-1, gridHeight-1, gridLength-1)) *
+        Gizmos.DrawWireCube(startPosition + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1) / 2,
+            (startPosition + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1)) *
             pointDistance);
     }
 }

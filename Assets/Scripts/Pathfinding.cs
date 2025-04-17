@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pathfinding
 {
     private GridCreator _grid;
+    private List<Point> _path = new List<Point>();
     public Pathfinding(GridCreator grid)
     {
         _grid = grid;
@@ -63,20 +64,24 @@ public class Pathfinding
 
     private List<Point> ReconstructPath(Point start, Point end)
     {
-        var path = new List<Point>();
         var currentPoint = end;
+        foreach (var point in _path)
+        {
+            point.material.color = Color.white;
+        }
+        _path.Clear();
 
         while (currentPoint != start)
         {
             currentPoint.material.color = Color.black;
-            path.Add(currentPoint);
+            _path.Add(currentPoint);
             currentPoint = currentPoint.previousPoint;
         }
 
         //startPoint.material.color = Color.black; error comes out at this point during testing
-        path.Reverse();
+        _path.Reverse();
 
-        return path;
+        return _path;
     }
 
     private int DistanceBetweenPoints(Point pointA, Point pointB)

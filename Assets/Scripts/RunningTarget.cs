@@ -15,7 +15,7 @@ public class RunningTarget : Target
     {
         var closestPoint = GetClosestPoint();
         transform.position = closestPoint.transform.position;
-        InvokeRepeating(nameof(MoveToNextPoint), 1, 5);
+        InvokeRepeating(nameof(MoveToNextPoint), 1, 1);
     }
     
     private void MoveToNextPoint()

@@ -8,6 +8,7 @@ public class SeekingTarget : Target
     [SerializeField] private PathHandler pathHandler;
     private Move _movement;
     private List<Point> _shortestPath;
+    private Point _closestPoint;
 
     private void Awake()
     {
@@ -16,19 +17,19 @@ public class SeekingTarget : Target
 
     private void Start()
     {
-        var closestPoint = GetClosestPoint();
-        transform.position = closestPoint.transform.position;
-        _shortestPath = pathHandler.GetShortestPath(closestPoint);
-        InvokeRepeating(nameof(MoveToNextPoint), 1, 1);
+        _closestPoint = GetClosestPoint();
+        transform.position = _closestPoint.transform.position;
+        InvokeRepeating(nameof(MoveToNextPoint), 3, 5);
     }
 
     private void MoveToNextPoint()
     {
+        _shortestPath = pathHandler.GetShortestPath(_closestPoint);
         if (_shortestPath.Count <= 0)
         {
             return;
         }
         _movement.MoveToNextPoint(_shortestPath[0]);
-        _shortestPath.RemoveAt(0);
+        _closestPoint = _shortestPath[0];
     }
 }

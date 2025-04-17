@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    private bool _isNotNotValid;
+    private bool _isNotValid;
     public Material material;
     public Point previousPoint;
     public List<Point> neighbours;
     public int hScore;
     public int gScore;
-    public event Action OnIsValidChanged;
+    public event Action<Point> OnIsValidChanged;
     public Vector3Int indexes;
 
     public int FScore => gScore + hScore;
 
     public bool IsNotValid
     {
-        get => _isNotNotValid;
+        get => _isNotValid;
         set
         {
-            if (value != _isNotNotValid)
+            if (value != _isNotValid)
             {
-                OnIsValidChanged?.Invoke();
+                OnIsValidChanged?.Invoke(this);
             }
 
-            _isNotNotValid = value;
+            _isNotValid = value;
         }
     }
 
