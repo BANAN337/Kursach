@@ -19,7 +19,7 @@ public class SeekingTarget : Target
     {
         _closestPoint = GetClosestPoint();
         transform.position = _closestPoint.transform.position;
-        InvokeRepeating(nameof(MoveToNextPoint), 3, 5);
+        InvokeRepeating(nameof(MoveToNextPoint), 3, 1);
     }
 
     private void MoveToNextPoint()
@@ -31,5 +31,13 @@ public class SeekingTarget : Target
         }
         _movement.MoveToNextPoint(_shortestPath[0]);
         _closestPoint = _shortestPath[0];
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Goal"))
+        {
+            Debug.Log("Target reached");
+        }
     }
 }
