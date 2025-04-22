@@ -10,15 +10,23 @@ public class InteractWithObject : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            SelectPoint(CreateWall);
+            SelectPoint(DisablePoint);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            SelectPoint(SetStartingPoint);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            SelectPoint(SetEndPoint);
         }
     }
 
     private void SelectPoint(Action<Point> onPointSelected)
-    {
-        if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+    {   
+        if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out var hit))
         {
             if (hit.transform.TryGetComponent(out Point selectedPoint))
             {
@@ -27,7 +35,7 @@ public class InteractWithObject : MonoBehaviour
         }
     }
 
-    private void CreateWall(Point selectedPoint)
+    private void DisablePoint(Point selectedPoint)
     {
         selectedPoint.IsNotValid = !selectedPoint.IsNotValid;
     }

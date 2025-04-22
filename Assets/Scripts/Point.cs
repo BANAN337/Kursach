@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    private bool _isNotValid;
-    private GameObject _wall;
+    private bool _isNotValid; 
     public Material material;
     public Point previousPoint;
     public List<Point> neighbours;
@@ -36,17 +35,16 @@ public class Point : MonoBehaviour
         neighbours = new List<Point>();
     }
 
-    public void CreateWall()
+    public void DisablePoint()
     {
         if (IsNotValid == false)
         {
-            _wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            _wall.transform.position = transform.position;
+            material.color = Color.red;
         }
 
         if (IsNotValid)
         {
-            Destroy(_wall);
+            material.color = Color.white;
         }
     }
 }

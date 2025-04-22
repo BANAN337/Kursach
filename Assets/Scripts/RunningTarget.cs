@@ -20,7 +20,10 @@ public class RunningTarget : Target
     
     private void MoveToNextPoint()
     {
-        var closestPointNeighbours = GridCreator.Instance.AddNeighboursToPoint(GetClosestPoint());
-        _movement.MoveToNextPoint(closestPointNeighbours[new System.Random().Next(0, closestPointNeighbours.Count)]);
+        if (canMove)
+        {
+            var closestPointNeighbours = GridCreator.Instance.AddNeighboursToPoint(GetClosestPoint());
+            _movement.MoveToNextPoint(closestPointNeighbours[new System.Random().Next(0, closestPointNeighbours.Count)]);
+        }
     }
 }

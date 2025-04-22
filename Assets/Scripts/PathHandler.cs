@@ -15,4 +15,15 @@ public class PathHandler : MonoBehaviour
     {
         return _pathfinding.FindPath(startPoint, runningTarget.GetClosestPoint());
     }
+
+    public bool IsEndReached(Point currentPoint)
+    {
+        if (currentPoint.transform.position == runningTarget.transform.position)
+        {
+            runningTarget.canMove = false;
+            return false;
+        }
+
+        return true;
+    }
 }

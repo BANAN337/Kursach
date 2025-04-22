@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public abstract class Target : MonoBehaviour
 {
     private Point _currentPoint;
+    public bool canMove = true;
 
     public Point GetClosestPoint()
     {

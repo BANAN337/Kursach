@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.TestTools;
 using Random = System.Random;
 
 [assembly: InternalsVisibleTo("PlayMode")]
@@ -58,8 +60,8 @@ public class GridCreator : MonoBehaviour
                 {
                     var point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
                         Quaternion.identity);
-                    point.OnIsValidChanged += point.CreateWall;
-                    point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1) || new Random().Next(0,100) < 10;
+                    point.OnIsValidChanged += point.DisablePoint;
+                    point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1);
                     Grid[i, j, k] = point;
                     point.indexes = new Vector3Int(i, j, k);
                 }
@@ -94,13 +96,7 @@ public class GridCreator : MonoBehaviour
         return point.neighbours;
     }
 
-    private void CreateWall(Point point)
-    {
-        var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        wall.transform.position = point.transform.position;
-        wall.transform.localScale *= pointDistance;
-    }
-
+    [ExcludeFromCodeCoverage]
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(startPosition + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1) / 2,

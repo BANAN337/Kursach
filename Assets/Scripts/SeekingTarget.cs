@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class SeekingTarget : Target
@@ -24,20 +22,16 @@ public class SeekingTarget : Target
 
     private void MoveToNextPoint()
     {
-        _shortestPath = pathHandler.GetShortestPath(_closestPoint);
-        if (_shortestPath.Count <= 0)
+        if (canMove)
         {
-            return;
-        }
-        _movement.MoveToNextPoint(_shortestPath[0]);
-        _closestPoint = _shortestPath[0];
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Goal"))
-        {
-            Debug.Log("Target reached");
+            _shortestPath = pathHandler.GetShortestPath(_closestPoint);
+            if (_shortestPath.Count <= 0)
+            {
+                return;
+            }
+            _movement.MoveToNextPoint(_shortestPath[0]);
+            _closestPoint = _shortestPath[0];
+            canMove = pathHandler.IsEndReached(_closestPoint);
         }
     }
 }
