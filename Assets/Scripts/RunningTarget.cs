@@ -10,13 +10,6 @@ public class RunningTarget : Target
     {
         _movement = GetComponent<Move>();
     }
-
-    private void Start()
-    {
-        var closestPoint = GetClosestPoint();
-        transform.position = closestPoint.transform.position;
-        InvokeRepeating(nameof(MoveToNextPoint), 1, 5);
-    }
     
     private void MoveToNextPoint()
     {
@@ -25,5 +18,13 @@ public class RunningTarget : Target
             var closestPointNeighbours = GridCreator.Instance.AddNeighboursToPoint(GetClosestPoint());
             _movement.MoveToNextPoint(closestPointNeighbours[new System.Random().Next(0, closestPointNeighbours.Count)]);
         }
+    }
+
+    public override void StartMovement()
+    {
+        CancelInvoke();
+        var closestPoint = GetClosestPoint();
+        transform.position = closestPoint.transform.position;
+        InvokeRepeating(nameof(MoveToNextPoint), 1, 5);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 public class PathHandler : MonoBehaviour
@@ -11,12 +12,13 @@ public class PathHandler : MonoBehaviour
         _pathfinding = new Pathfinding(GridCreator.Instance);
     }
 
+    [ExcludeFromCodeCoverage]
     public List<Point> GetShortestPath(Point startPoint)
     {
         return _pathfinding.FindPath(startPoint, runningTarget.GetClosestPoint());
     }
 
-    public bool IsEndReached(Point currentPoint)
+    public bool IsEndNotReached(Point currentPoint)
     {
         if (currentPoint.transform.position == runningTarget.transform.position)
         {

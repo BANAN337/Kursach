@@ -6,6 +6,8 @@ public abstract class Target : MonoBehaviour
     private Point _currentPoint;
     public bool canMove = true;
 
+    public abstract void StartMovement();
+    
     public Point GetClosestPoint()
     {
         var closestDistance = Mathf.Infinity;

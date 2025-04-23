@@ -22,6 +22,13 @@ public class InteractWithObject : MonoBehaviour
         {
             SelectPoint(SetEndPoint);
         }
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            seekingTarget.canMove = true;
+            runningTarget.canMove = true;
+            seekingTarget.StartMovement();
+            runningTarget.StartMovement();
+        }
     }
 
     private void SelectPoint(Action<Point> onPointSelected)
