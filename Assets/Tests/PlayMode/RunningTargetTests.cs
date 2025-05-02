@@ -23,9 +23,9 @@ namespace Tests.PlayMode
                 grid.Grid[0, 0, 1], grid.Grid[0, 1, 0], grid.Grid[1, 0, 0], grid.Grid[0, 1, 1], grid.Grid[1, 0, 1],
                 grid.Grid[1, 1, 0], grid.Grid[1, 1, 1]
             };
-
+        
             yield return new WaitForSeconds(1);
-
+        
             var gameObject = new GameObject();
             var movement = gameObject.AddComponent<Move>();
             var runningTarget = gameObject.AddComponent<RunningTarget>();
@@ -36,9 +36,9 @@ namespace Tests.PlayMode
             currentPoint?.SetValue(runningTarget, grid.Grid[0, 0, 0]);
             
             moveToNextPoint?.Invoke(runningTarget, new object[] { });
-
+        
             yield return new WaitForSeconds(1);
-
+        
             var changedPos = false;
             foreach (var point in possiblePoints)
             {
@@ -47,8 +47,30 @@ namespace Tests.PlayMode
                     changedPos = true;
                 }
             }
-
+        
             Assert.IsTrue(changedPos);
+        }
+
+        [UnityTest]
+        public IEnumerator StartMovement_SetsStartingPosition()
+        {
+            var grid = new GameObject().AddComponent<GridCreator>();
+            grid.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+                AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
+            grid.PublicCreateGrid();
+
+            yield return new WaitForSeconds(1);
+
+            var gameObject = new GameObject();
+            gameObject.transform.position = new Vector3(-1, -1, -1);
+            var movement = gameObject.AddComponent<Move>();
+            var runningTarget = gameObject.AddComponent<RunningTarget>();
+            
+            yield return new WaitForSeconds(0.5f);
+            
+            runningTarget.StartMovement();
+            
+            Assert.AreEqual(grid.Grid[0, 0, 0].transform.position, runningTarget.transform.position);
         }
     }
 }
