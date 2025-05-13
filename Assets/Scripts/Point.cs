@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Point : MonoBehaviour
+public class Point : MonoBehaviour, IHeapItem<Point>
 {
-    private bool _isNotValid; 
+    private bool _isNotValid;
     public Material material;
     public Point previousPoint;
     public List<Point> neighbours;
@@ -13,6 +13,7 @@ public class Point : MonoBehaviour
     public event Action OnIsValidChanged;
     public Vector3Int indexes;
 
+    public int HeapIndex { get; set; }
     public int FScore => gScore + hScore;
 
     public bool IsNotValid
@@ -46,5 +47,15 @@ public class Point : MonoBehaviour
         {
             material.color = Color.white;
         }
+    }
+
+    public int CompareTo(Point other)
+    {
+        var compare = FScore.CompareTo(other.FScore);
+        if (compare == 0)
+        {
+            compare = hScore.CompareTo(other.hScore);
+        }
+        return -compare;
     }
 }

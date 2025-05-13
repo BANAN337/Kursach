@@ -5,38 +5,28 @@ using UnityEngine;
 public class Pathfinding
 {
     private GridCreator _grid;
-    private List<Point> _path = new List<Point>();
+    private List<Point> _path = new();
     public Pathfinding(GridCreator grid)
     {
         _grid = grid;
     }
     public List<Point> FindPath(Point start, Point end)
     {
-        var openSet = new List<Point> { start };
+        var openSet = new Heap<Point>(_grid.Grid.Length);
         var closedSet = new HashSet<Point>();
 
+        openSet.Add(start);
         start.hScore = DistanceBetweenPoints(start, end);
 
         while (openSet.Count > 0)
         {
-            var currentPoint = openSet[0];
-            for (var i = 1; i < openSet.Count; i++)
-            {
-                if (openSet[i].FScore < currentPoint.FScore || openSet[i].FScore == currentPoint.FScore)
-                {
-                    if (openSet[i].hScore < currentPoint.hScore)
-                    {
-                        currentPoint = openSet[i];
-                    }
-                }
-            }
+            var currentPoint = openSet.RemoveFirstItem();
 
             if (currentPoint == end)
             {
                 return ReconstructPath(start, end);
             }
             
-            openSet.Remove(currentPoint);
             closedSet.Add(currentPoint);
 
             foreach (var neighbour in _grid.AddNeighboursToPoint(currentPoint))
