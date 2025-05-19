@@ -18,6 +18,11 @@ public class SeekingTarget : Target
         if (canMove)
         {
             _shortestPath = pathHandler.GetShortestPath(_closestPoint);
+            if (_shortestPath.Count <= 0)
+            {
+                canMove = false;
+                return;
+            }
             _movement.MoveToNextPoint(_shortestPath[0]);
             _closestPoint = _shortestPath[0];
             canMove = pathHandler.IsEndNotReached(_closestPoint);

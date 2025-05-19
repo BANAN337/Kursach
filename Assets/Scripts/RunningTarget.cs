@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class RunningTarget : Target
 {
     private Move _movement;
@@ -18,6 +14,7 @@ public class RunningTarget : Target
         {
             var closestPointNeighbours = GridCreator.Instance.AddNeighboursToPoint(_closestPoint);
             var newPointIndex = new System.Random().Next(0, closestPointNeighbours.Count);
+            if (closestPointNeighbours.Count <= 0) return;
             _movement.MoveToNextPoint(closestPointNeighbours[newPointIndex]);
             _closestPoint = closestPointNeighbours[newPointIndex];
         }
