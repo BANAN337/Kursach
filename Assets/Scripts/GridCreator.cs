@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.TestTools;
-using Random = System.Random;
 
 [assembly: InternalsVisibleTo("PlayMode")]
 
@@ -33,15 +30,16 @@ public class GridCreator : MonoBehaviour
         CreateGrid();
     }
 
-    internal void SetValues(int gridWidth, int gridLength, int gridHeight, Vector3Int startPosition, int pointDistance,
-        Point pointPrefab)
+    internal void SetValues(int gridWidthValue, int gridLengthValue, int gridHeightValue, Vector3Int startPositionValue,
+        int pointDistanceValue,
+        Point pointPrefabValue)
     {
-        this.gridWidth = gridWidth;
-        this.gridLength = gridLength;
-        this.gridHeight = gridHeight;
-        this.startPosition = startPosition;
-        this.pointDistance = pointDistance;
-        this.pointPrefab = pointPrefab;
+        gridWidth = gridWidthValue;
+        gridLength = gridLengthValue;
+        gridHeight = gridHeightValue;
+        startPosition = startPositionValue;
+        pointDistance = pointDistanceValue;
+        pointPrefab = pointPrefabValue;
     }
 
     internal void PublicCreateGrid()
@@ -51,6 +49,7 @@ public class GridCreator : MonoBehaviour
 
     private void CreateGrid()
     {
+        var pointsParent = new GameObject("Points");
         Grid = new Point[gridWidth, gridHeight, gridLength];
         for (var i = 0; i < gridWidth; i++)
         {
@@ -64,6 +63,7 @@ public class GridCreator : MonoBehaviour
                     point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1);
                     Grid[i, j, k] = point;
                     point.indexes = new Vector3Int(i, j, k);
+                    point.transform.SetParent(pointsParent.transform);
                 }
             }
         }
@@ -71,6 +71,7 @@ public class GridCreator : MonoBehaviour
 
     public List<Point> AddNeighboursToPoint(Point point)
     {
+        var neighbours = new List<Point>();
         for (var i = -1; i <= 1; i++)
         {
             for (var j = -1; j <= 1; j++)
@@ -82,18 +83,20 @@ public class GridCreator : MonoBehaviour
                         continue;
                     }
 
-                    if (point.indexes.x + i < gridWidth && point.indexes.x + i >= 0 &&
-                        point.indexes.y + j < gridHeight && point.indexes.y + j >= 0 &&
-                        point.indexes.z + k < gridLength && point.indexes.z + k >= 0 &&
+                    if ((point.indexes.x + i < gridWidth && point.indexes.x + i >= 0 &&
+                         point.indexes.y + j < gridHeight && point.indexes.y + j >= 0 &&
+                         point.indexes.z + k < gridLength && point.indexes.z + k >= 0) &&
                         Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k].IsNotValid == false)
                     {
-                        point.neighbours.Add(Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k]);
+                        {
+                            neighbours.Add(Grid[point.indexes.x + i, point.indexes.y + j, point.indexes.z + k]);
+                        }
                     }
                 }
             }
         }
 
-        return point.neighbours;
+        return neighbours;
     }
 
     [ExcludeFromCodeCoverage]

@@ -7,7 +7,6 @@ public class Point : MonoBehaviour, IHeapItem<Point>
     private bool _isNotValid;
     public Material material;
     public Point previousPoint;
-    public List<Point> neighbours;
     public int hScore;
     public int gScore;
     public event Action OnIsValidChanged;
@@ -33,7 +32,6 @@ public class Point : MonoBehaviour, IHeapItem<Point>
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
-        neighbours = new List<Point>();
     }
 
     public void DisablePoint()
@@ -50,7 +48,7 @@ public class Point : MonoBehaviour, IHeapItem<Point>
     }
 
     public int CompareTo(Point other)
-    {
+    { 
         var compare = FScore.CompareTo(other.FScore);
         if (compare == 0)
         {

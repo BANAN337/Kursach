@@ -37,7 +37,7 @@ public class Pathfinding
                 }
                 
                 var temporaryGScore = currentPoint.gScore + DistanceBetweenPoints(currentPoint, neighbour);
-                if (temporaryGScore < neighbour.gScore || !closedSet.Contains(neighbour))
+                if (temporaryGScore < neighbour.gScore || !openSet.Contains(neighbour))
                 {
                     neighbour.gScore = temporaryGScore;
                     neighbour.hScore = DistanceBetweenPoints(neighbour, end);
@@ -67,8 +67,7 @@ public class Pathfinding
             _path.Add(currentPoint);
             currentPoint = currentPoint.previousPoint;
         }
-
-        //startPoint.material.color = Color.black; error comes out at this point during testing
+        
         _path.Reverse();
 
         return _path;

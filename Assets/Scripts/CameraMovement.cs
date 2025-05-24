@@ -1,5 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
+[ExcludeFromCodeCoverage]
 public class CameraMovement : MonoBehaviour
 {
     private void Update()

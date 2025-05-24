@@ -34,6 +34,6 @@ public class SeekingTarget : Target
         CancelInvoke();
         _closestPoint = GetClosestPoint();
         transform.position = _closestPoint.transform.position;
-        InvokeRepeating(nameof(MoveToNextPoint), 3, 1);
+        InvokeRepeating(nameof(MoveToNextPoint), 3, 3);
     }
 }
