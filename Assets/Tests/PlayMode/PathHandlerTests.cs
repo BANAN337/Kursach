@@ -21,21 +21,27 @@ namespace Tests.PlayMode
         public IEnumerator IsEndNotReached_ReturnsTrueIfPositionsAreTheSameFalseIfNot(
             [ValueSource(nameof(TestData))] (Vector3Int runningTargetPos, bool isNotReached) data)
         {
-            var pathHandler = new GameObject().AddComponent<PathHandler>();
-            var runningTarget = new GameObject().AddComponent<RunningTarget>();
-            var runningTargetField = pathHandler.GetType()
-                .GetField("runningTarget", BindingFlags.NonPublic | BindingFlags.Instance);
-
             var gridCreator = new GameObject().AddComponent<GridCreator>();
             gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             gridCreator.PublicCreateGrid();
 
             yield return new WaitForSeconds(1);
+            
+            var runningTarget = new GameObject().AddComponent<RunningTarget>();
+            var runningTargetGrid = runningTarget.GetType()
+                .GetField("gridCreator", BindingFlags.NonPublic | BindingFlags.Instance);
+            runningTargetGrid?.SetValue(runningTarget, gridCreator);
+            
+            var pathHandler = new GameObject().AddComponent<PathHandler>();
+            var pathHandlerRunningTarget = pathHandler.GetType()
+                .GetField("runningTarget", BindingFlags.NonPublic | BindingFlags.Instance);
+            pathHandlerRunningTarget?.SetValue(pathHandler, runningTarget);
+            
+            yield return new WaitForSeconds(1);
 
             runningTarget.transform.position = gridCreator
                 .Grid[data.runningTargetPos.x, data.runningTargetPos.y, data.runningTargetPos.z].transform.position;
-            runningTargetField?.SetValue(pathHandler, runningTarget);
 
             yield return new WaitForSeconds(1);
 

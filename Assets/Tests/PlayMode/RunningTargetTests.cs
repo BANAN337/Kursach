@@ -34,8 +34,12 @@ namespace Tests.PlayMode
             var currentPoint =
                 runningTarget.GetType().GetField("_closestPoint", BindingFlags.NonPublic | BindingFlags.Instance);
             currentPoint?.SetValue(runningTarget, grid.Grid[0, 0, 0]);
+            var runningTargetGrid = runningTarget.GetType()
+                .GetField("gridCreator", BindingFlags.NonPublic | BindingFlags.Instance);
+            runningTargetGrid?.SetValue(runningTarget, grid);
             
             moveToNextPoint?.Invoke(runningTarget, new object[] { });
+            
         
             yield return new WaitForSeconds(1);
         
@@ -65,6 +69,10 @@ namespace Tests.PlayMode
             gameObject.transform.position = new Vector3(-1, -1, -1);
             var movement = gameObject.AddComponent<Move>();
             var runningTarget = gameObject.AddComponent<RunningTarget>();
+            
+            var runningTargetGrid = runningTarget.GetType()
+                .GetField("gridCreator", BindingFlags.NonPublic | BindingFlags.Instance);
+            runningTargetGrid?.SetValue(runningTarget, grid);
             
             yield return new WaitForSeconds(0.5f);
             

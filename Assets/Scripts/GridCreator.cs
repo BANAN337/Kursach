@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class GridCreator : MonoBehaviour
 {
-    public static GridCreator Instance;
     [SerializeField] private Point pointPrefab;
     [SerializeField] private int gridWidth;
     [SerializeField] private int gridLength;
@@ -18,15 +17,6 @@ public class GridCreator : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         CreateGrid();
     }
 

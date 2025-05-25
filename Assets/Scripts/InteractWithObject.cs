@@ -48,6 +48,11 @@ public class InteractWithObject : MonoBehaviour
             DisableCameras(3);
         }
 
+        if (Input.GetKeyUp(KeyCode.Alpha8))
+        {
+            FourPointsOfView();
+        }
+
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             seekingTarget.canMove = true;
@@ -87,6 +92,7 @@ public class InteractWithObject : MonoBehaviour
     {
         foreach (var cam in cameras)
         {
+            cam.rect = new Rect(0,0,1,1);
             if (cam == cameras[cameraToEnable])
             {
                 cam.gameObject.SetActive(true);
@@ -95,5 +101,17 @@ public class InteractWithObject : MonoBehaviour
 
             cam.gameObject.SetActive(false);
         }
+    }
+
+    private void FourPointsOfView()
+    {
+        foreach (var cam in cameras)
+        {
+            cam.gameObject.SetActive(true);
+        }
+        cameras[0].rect = new Rect(-0.5f, -0.5f, 1,1);
+        cameras[1].rect = new Rect(-0.5f, 0.5f, 1,1);
+        cameras[2].rect = new Rect(0.5f, 0.5f, 1,1);
+        cameras[3].rect = new Rect(0.5f, -0.5f, 1,1);
     }
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PathHandler : MonoBehaviour
 {
-    [SerializeField] private Target runningTarget;
+    [SerializeField] private GridDecorator runningTarget;
     private Pathfinding _pathfinding;
 
-    private void Awake()
+    private void Start()
     {
-        _pathfinding = new Pathfinding(GridCreator.Instance);
+        _pathfinding = new Pathfinding(runningTarget.GridCreator);
     }
 
     [ExcludeFromCodeCoverage]

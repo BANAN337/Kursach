@@ -46,16 +46,5 @@ namespace Tests.PlayMode
             
             Assert.AreEqual(data.Item2, gridCreator.AddNeighboursToPoint(gridCreator.Grid[data.Item1.x, data.Item1.y, data.Item1.z]).Count);
         }
-
-        [UnityTest]
-        public IEnumerator Awake_OnlyOneInstanceIsPresent()
-        {
-            var firstGrid = new GameObject().AddComponent<GridCreator>();
-            var secondGrid = new GameObject().AddComponent<GridCreator>();
-
-            yield return new WaitForSeconds(1);
-
-            Assert.IsNull(secondGrid);
-        }
     }
 }

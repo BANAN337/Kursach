@@ -1,21 +1,20 @@
-public class RunningTarget : Target
+public class RunningTarget : GridDecorator
 {
-    private Move _movement;
     private Point _closestPoint;
 
     private void Awake()
     {
-        _movement = GetComponent<Move>();
+        Movement = GetComponent<Move>();
     }
     
     private void MoveToNextPoint()
     {
         if (canMove)
         {
-            var closestPointNeighbours = GridCreator.Instance.AddNeighboursToPoint(_closestPoint);
+            var closestPointNeighbours = gridCreator.AddNeighboursToPoint(_closestPoint);
             var newPointIndex = new System.Random().Next(0, closestPointNeighbours.Count);
             if (closestPointNeighbours.Count <= 0) return;
-            _movement.MoveToNextPoint(closestPointNeighbours[newPointIndex]);
+            Movement.MoveToNextPoint(closestPointNeighbours[newPointIndex]);
             _closestPoint = closestPointNeighbours[newPointIndex];
         }
     }

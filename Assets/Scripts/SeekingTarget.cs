@@ -1,17 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeekingTarget : Target
+public class SeekingTarget : GridDecorator
 {
     [SerializeField] private PathHandler pathHandler;
-    private Move _movement;
     private List<Point> _shortestPath;
     private Point _closestPoint;
-
-    private void Awake()
-    {
-        _movement = GetComponent<Move>();
-    }
     
     private void MoveToNextPoint()
     {
@@ -23,7 +17,7 @@ public class SeekingTarget : Target
                 canMove = false;
                 return;
             }
-            _movement.MoveToNextPoint(_shortestPath[0]);
+            Movement.MoveToNextPoint(_shortestPath[0]);
             _closestPoint = _shortestPath[0];
             canMove = pathHandler.IsEndNotReached(_closestPoint);
         }

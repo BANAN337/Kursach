@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Pathfinding
 {
-    private GridCreator _grid;
     private List<Point> _path = new();
-    public Pathfinding(GridCreator grid)
+    private GridCreator _currentGrid;
+
+    public Pathfinding(GridCreator currentGrid)
     {
-        _grid = grid;
+        _currentGrid = currentGrid;
     }
     public List<Point> FindPath(Point start, Point end)
     {
-        var openSet = new Heap<Point>(_grid.Grid.Length);
+        var openSet = new Heap<Point>(_currentGrid.Grid.Length);
         var closedSet = new HashSet<Point>();
 
         openSet.Add(start);
@@ -29,7 +30,7 @@ public class Pathfinding
             
             closedSet.Add(currentPoint);
 
-            foreach (var neighbour in _grid.AddNeighboursToPoint(currentPoint))
+            foreach (var neighbour in _currentGrid.AddNeighboursToPoint(currentPoint))
             {
                 if (neighbour.IsNotValid || closedSet.Contains(neighbour))
                 {

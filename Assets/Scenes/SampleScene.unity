@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 318407001}
   - component: {fileID: 318407000}
   m_Layer: 0
-  m_Name: Maze Manager
+  m_Name: Grid Creator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,7 +926,7 @@ Transform:
   m_GameObject: {fileID: 2131185270}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3, y: 12.37, z: 3}
+  m_LocalPosition: {x: 3, y: 13, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1040,6 +1040,10 @@ PrefabInstance:
       value: Seeking Target
       objectReference: {fileID: 0}
     - target: {fileID: 1701530477389182308, guid: 3f4282e328ada804c827fe52d0a6998d, type: 3}
+      propertyPath: gridCreator
+      value: 
+      objectReference: {fileID: 318407000}
+    - target: {fileID: 1701530477389182308, guid: 3f4282e328ada804c827fe52d0a6998d, type: 3}
       propertyPath: pathHandler
       value: 
       objectReference: {fileID: 1210075782}
@@ -1100,6 +1104,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Running Target
       objectReference: {fileID: 0}
+    - target: {fileID: 4934844439974800130, guid: 2d599c963291a25428dca7939f0d7038, type: 3}
+      propertyPath: gridCreator
+      value: 
+      objectReference: {fileID: 318407000}
     - target: {fileID: 5835822136286138725, guid: 2d599c963291a25428dca7939f0d7038, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.33
