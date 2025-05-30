@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeekingTarget : GridDecorator
+public class SeekingTarget : Target
 {
     [SerializeField] private PathHandler pathHandler;
     private List<Point> _shortestPath;

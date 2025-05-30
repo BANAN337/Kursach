@@ -1,4 +1,4 @@
-public class RunningTarget : GridDecorator
+public class RunningTarget : Target
 {
     private Point _closestPoint;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PathHandler : MonoBehaviour
 {
-    [SerializeField] private GridDecorator runningTarget;
+    [SerializeField] private Target runningTarget;
     private Pathfinding _pathfinding;
 
     private void Start()
