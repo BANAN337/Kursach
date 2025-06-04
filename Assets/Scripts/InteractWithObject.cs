@@ -11,6 +11,14 @@ public class InteractWithObject : MonoBehaviour
     [SerializeField] private RunningTarget runningTarget;
     [SerializeField] private Camera[] cameras;
 
+    private void Awake()
+    {
+        for (var i = 1; i < cameras.Length; i++)
+        {
+            cameras[i].gameObject.SetActive(false);
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Alpha1))
