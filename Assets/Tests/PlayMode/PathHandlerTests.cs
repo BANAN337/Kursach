@@ -22,7 +22,7 @@ namespace Tests.PlayMode
             [ValueSource(nameof(TestData))] (Vector3Int runningTargetPos, bool isNotReached) data)
         {
             var gridCreator = new GameObject().AddComponent<GridCreator>();
-            gridCreator.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+            gridCreator.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             gridCreator.PublicCreateGrid();
 

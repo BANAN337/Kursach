@@ -11,23 +11,21 @@ public class GridCreator : MonoBehaviour
     [SerializeField] private int gridWidth;
     [SerializeField] private int gridLength;
     [SerializeField] private int gridHeight;
-    [SerializeField] private Vector3Int startPosition;
     [SerializeField] private int pointDistance;
-    public Point[,,] Grid;
+    public Point[,,] Grid { get; private set; }
 
     private void Awake()
     {
         CreateGrid();
     }
 
-    internal void SetValues(int gridWidthValue, int gridLengthValue, int gridHeightValue, Vector3Int startPositionValue,
+    internal void SetValues(int gridWidthValue, int gridLengthValue, int gridHeightValue,
         int pointDistanceValue,
         Point pointPrefabValue)
     {
         gridWidth = gridWidthValue;
         gridLength = gridLengthValue;
         gridHeight = gridHeightValue;
-        startPosition = startPositionValue;
         pointDistance = pointDistanceValue;
         pointPrefab = pointPrefabValue;
     }
@@ -47,7 +45,7 @@ public class GridCreator : MonoBehaviour
             {
                 for (var k = 0; k < gridLength; k++)
                 {
-                    var point = Instantiate(pointPrefab, startPosition + new Vector3(i, j, k) * pointDistance,
+                    var point = Instantiate(pointPrefab, transform.position + new Vector3(i, j, k) * pointDistance,
                         Quaternion.identity);
                     point.OnIsValidChanged += point.DisablePoint;
                     point.IsNotValid = !Physics.CheckSphere(point.transform.position, 1);
@@ -92,8 +90,8 @@ public class GridCreator : MonoBehaviour
     [ExcludeFromCodeCoverage]
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(startPosition + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1) / 2,
-            (startPosition + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1)) *
+        Gizmos.DrawWireCube(transform.position + new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1) / 2,
+            (new Vector3(gridWidth - 1, gridHeight - 1, gridLength - 1)) *
             pointDistance);
     }
 }

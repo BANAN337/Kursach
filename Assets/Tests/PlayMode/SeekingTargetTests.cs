@@ -13,7 +13,7 @@ namespace Tests.PlayMode
         public IEnumerator StartMovement_MovesAccordingToShortestPath()
         {
             var grid = new GameObject().AddComponent<GridCreator>();
-            grid.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+            grid.SetValues(5, 5, 5,1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             grid.PublicCreateGrid();
 
@@ -55,7 +55,7 @@ namespace Tests.PlayMode
         public IEnumerator StartMovement_SetsClosestPoint()
         {
             var grid = new GameObject().AddComponent<GridCreator>();
-            grid.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+            grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             grid.PublicCreateGrid();
 

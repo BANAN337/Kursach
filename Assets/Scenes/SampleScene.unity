@@ -197,7 +197,6 @@ MonoBehaviour:
   gridWidth: 7
   gridLength: 7
   gridHeight: 7
-  startPosition: {x: 0, y: 0, z: 0}
   pointDistance: 1
 --- !u!4 &318407001
 Transform:

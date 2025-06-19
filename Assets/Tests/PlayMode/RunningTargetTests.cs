@@ -15,7 +15,7 @@ namespace Tests.PlayMode
         public IEnumerator MoveToNextPoint_TargetChangesItsPosition()
         {
             var grid = new GameObject().AddComponent<GridCreator>();
-            grid.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+            grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             grid.PublicCreateGrid();
             var possiblePoints = new List<Point>
@@ -59,7 +59,7 @@ namespace Tests.PlayMode
         public IEnumerator StartMovement_SetsStartingPosition()
         {
             var grid = new GameObject().AddComponent<GridCreator>();
-            grid.SetValues(5, 5, 5, new Vector3Int(0, 0, 0), 1,
+            grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             grid.PublicCreateGrid();
 
