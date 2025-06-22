@@ -5,7 +5,7 @@ public abstract class Target : MonoBehaviour
 {
     [SerializeField] protected GridCreator gridCreator;
     protected Move Movement;
-    private Point _currentPoint;
+    protected Point _currentPoint;
     public bool canMove = true;
     public GridCreator GridCreator => gridCreator;
 

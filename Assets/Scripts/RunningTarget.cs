@@ -1,7 +1,5 @@
 public class RunningTarget : Target
 {
-    private Point _closestPoint;
-
     private void Awake()
     {
         Movement = GetComponent<Move>();
@@ -11,11 +9,11 @@ public class RunningTarget : Target
     {
         if (canMove)
         {
-            var closestPointNeighbours = gridCreator.AddNeighboursToPoint(_closestPoint);
+            var closestPointNeighbours = gridCreator.AddNeighboursToPoint(_currentPoint);
             var newPointIndex = new System.Random().Next(0, closestPointNeighbours.Count);
             if (closestPointNeighbours.Count <= 0) return;
             Movement.MoveToNextPoint(closestPointNeighbours[newPointIndex]);
-            _closestPoint = closestPointNeighbours[newPointIndex];
+            _currentPoint = closestPointNeighbours[newPointIndex];
         }
     }
 
@@ -24,7 +22,7 @@ public class RunningTarget : Target
         CancelInvoke();
         var closestPoint = GetClosestPoint();
         transform.position = closestPoint.transform.position;
-        _closestPoint = closestPoint;
+        _currentPoint = closestPoint;
         InvokeRepeating(nameof(MoveToNextPoint), 1, 5);
     }
 }

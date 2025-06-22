@@ -5,29 +5,28 @@ public class SeekingTarget : Target
 {
     [SerializeField] private PathHandler pathHandler;
     private List<Point> _shortestPath;
-    private Point _closestPoint;
     
     private void MoveToNextPoint()
     {
         if (canMove)
         {
-            _shortestPath = pathHandler.GetShortestPath(_closestPoint);
+            _shortestPath = pathHandler.GetShortestPath(_currentPoint);
             if (_shortestPath.Count <= 0)
             {
                 canMove = false;
                 return;
             }
             Movement.MoveToNextPoint(_shortestPath[0]);
-            _closestPoint = _shortestPath[0];
-            canMove = pathHandler.IsEndNotReached(_closestPoint);
+            _currentPoint = _shortestPath[0];
+            canMove = pathHandler.IsEndNotReached(_currentPoint);
         }
     }
 
     public override void StartMovement()
     {
         CancelInvoke();
-        _closestPoint = GetClosestPoint();
-        transform.position = _closestPoint.transform.position;
+        _currentPoint = GetClosestPoint();
+        transform.position = _currentPoint.transform.position;
         InvokeRepeating(nameof(MoveToNextPoint), 3, 3);
     }
 }
