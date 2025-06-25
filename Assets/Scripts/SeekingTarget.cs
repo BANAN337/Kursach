@@ -10,23 +10,23 @@ public class SeekingTarget : Target
     {
         if (canMove)
         {
-            _shortestPath = pathHandler.GetShortestPath(_currentPoint);
+            _shortestPath = pathHandler.GetShortestPath(CurrentPoint);
             if (_shortestPath.Count <= 0)
             {
                 canMove = false;
                 return;
             }
             Movement.MoveToNextPoint(_shortestPath[0]);
-            _currentPoint = _shortestPath[0];
-            canMove = pathHandler.IsEndNotReached(_currentPoint);
+            CurrentPoint = _shortestPath[0];
+            canMove = pathHandler.IsEndNotReached(CurrentPoint);
         }
     }
 
     public override void StartMovement()
     {
         CancelInvoke();
-        _currentPoint = GetClosestPoint();
-        transform.position = _currentPoint.transform.position;
+        CurrentPoint = GetClosestPoint();
+        transform.position = CurrentPoint.transform.position;
         InvokeRepeating(nameof(MoveToNextPoint), 3, 3);
     }
 }

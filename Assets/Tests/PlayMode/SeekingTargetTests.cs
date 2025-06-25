@@ -12,6 +12,7 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator StartMovement_MovesAccordingToShortestPath()
         {
+            //Arrange
             var grid = new GameObject().AddComponent<GridCreator>();
             grid.SetValues(5, 5, 5,1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
@@ -40,20 +41,23 @@ namespace Tests.PlayMode
             var currentPathHandler = seekingTarget.GetType()
                 .GetField("pathHandler", BindingFlags.NonPublic | BindingFlags.Instance);
             currentPathHandler?.SetValue(seekingTarget, pathHandler);
-
+            
             runningTarget.transform.position = grid.Grid[4, 4, 4].transform.position;
             seekingTarget.transform.position = grid.Grid[0, 0, 0].transform.position;
 
+            //Act
             seekingTarget.StartMovement();
 
             yield return new WaitForSeconds(3.5f);
 
+            //Assert
             Assert.AreEqual(seekingTarget.transform.position, grid.Grid[1, 1, 1].transform.position);
         }
 
         [UnityTest]
         public IEnumerator StartMovement_SetsClosestPoint()
         {
+            //Arrange
             var grid = new GameObject().AddComponent<GridCreator>();
             grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
@@ -69,10 +73,12 @@ namespace Tests.PlayMode
                 .GetField("gridCreator", BindingFlags.NonPublic | BindingFlags.Instance);
             seekingTargetGrid?.SetValue(seekingTarget, grid);
 
+            //Act
             seekingTarget.StartMovement();
 
             yield return new WaitForSeconds(1);
 
+            //Assert
             Assert.AreEqual(seekingTarget.transform.position, grid.Grid[0, 0, 0].transform.position);
         }
     }

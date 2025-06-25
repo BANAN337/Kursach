@@ -21,10 +21,12 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator DisablePoint_ChangesColorOnIsNotValidChange([ValueSource(nameof(DisablePointData))] (bool isPointAllowed, Color expectedColor) data)
         {
+            //Arrange
             var point = Instantiate(AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
             
             point.OnIsValidChanged += point.DisablePoint;
             
+            //Act
             for (var i = 0; i < 3; i++)
             {
                 point.IsNotValid = data.isPointAllowed;
@@ -33,6 +35,7 @@ namespace Tests.PlayMode
 
             yield return new WaitForSeconds(1);
         
+            //Assert
             Assert.AreEqual(data.expectedColor, point.material.color);
         }
     }

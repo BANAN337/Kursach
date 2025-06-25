@@ -14,6 +14,7 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator MoveToNextPoint_TargetChangesItsPosition()
         {
+            //Arrange
             var grid = new GameObject().AddComponent<GridCreator>();
             grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
@@ -32,17 +33,17 @@ namespace Tests.PlayMode
             var moveToNextPoint =
                 runningTarget.GetType().GetMethod("MoveToNextPoint", BindingFlags.NonPublic | BindingFlags.Instance);
             var currentPoint =
-                runningTarget.GetType().GetField("_closestPoint", BindingFlags.NonPublic | BindingFlags.Instance);
+                runningTarget.GetType().GetField("CurrentPoint", BindingFlags.NonPublic | BindingFlags.Instance);
             currentPoint?.SetValue(runningTarget, grid.Grid[0, 0, 0]);
             var runningTargetGrid = runningTarget.GetType()
                 .GetField("gridCreator", BindingFlags.NonPublic | BindingFlags.Instance);
             runningTargetGrid?.SetValue(runningTarget, grid);
             
             moveToNextPoint?.Invoke(runningTarget, new object[] { });
-            
         
             yield return new WaitForSeconds(1);
         
+            //Act
             var changedPos = false;
             foreach (var point in possiblePoints)
             {
@@ -52,12 +53,14 @@ namespace Tests.PlayMode
                 }
             }
         
+            //Assert
             Assert.IsTrue(changedPos);
         }
 
         [UnityTest]
         public IEnumerator StartMovement_SetsStartingPosition()
         {
+            //Arrange
             var grid = new GameObject().AddComponent<GridCreator>();
             grid.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
@@ -76,8 +79,10 @@ namespace Tests.PlayMode
             
             yield return new WaitForSeconds(0.5f);
             
+            //Act
             runningTarget.StartMovement();
             
+            //Assert
             Assert.AreEqual(grid.Grid[0, 0, 0].transform.position, runningTarget.transform.position);
         }
     }

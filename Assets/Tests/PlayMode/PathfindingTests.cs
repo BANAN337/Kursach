@@ -12,6 +12,7 @@ namespace Tests.PlayMode
         [UnityTest]
          public IEnumerator FindPath_CorrectNumberOfPointsInShortestPath()
          { 
+             //Arrange
              var gridCreator = new GameObject().AddComponent<GridCreator>();
         
              gridCreator.SetValues(5, 5, 5,  1,
@@ -22,6 +23,7 @@ namespace Tests.PlayMode
         
              yield return new WaitForSeconds(1);
 
+             //Act
              var startPoint = gridCreator.Grid[0, 0, 0];
              var endPoint = gridCreator.Grid[4, 4, 4];
              
@@ -29,6 +31,7 @@ namespace Tests.PlayMode
         
              yield return new WaitForSeconds(1);
         
+             //Assert
              Assert.AreEqual(4, shortestPath.Count);
          }
     }

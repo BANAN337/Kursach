@@ -9,11 +9,11 @@ public class RunningTarget : Target
     {
         if (canMove)
         {
-            var closestPointNeighbours = gridCreator.AddNeighboursToPoint(_currentPoint);
+            var closestPointNeighbours = gridCreator.AddNeighboursToPoint(CurrentPoint);
             var newPointIndex = new System.Random().Next(0, closestPointNeighbours.Count);
             if (closestPointNeighbours.Count <= 0) return;
             Movement.MoveToNextPoint(closestPointNeighbours[newPointIndex]);
-            _currentPoint = closestPointNeighbours[newPointIndex];
+            CurrentPoint = closestPointNeighbours[newPointIndex];
         }
     }
 
@@ -22,7 +22,7 @@ public class RunningTarget : Target
         CancelInvoke();
         var closestPoint = GetClosestPoint();
         transform.position = closestPoint.transform.position;
-        _currentPoint = closestPoint;
+        CurrentPoint = closestPoint;
         InvokeRepeating(nameof(MoveToNextPoint), 1, 5);
     }
 }

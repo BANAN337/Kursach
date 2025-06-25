@@ -21,6 +21,7 @@ namespace Tests.PlayMode
         public IEnumerator IsEndNotReached_ReturnsTrueIfPositionsAreTheSameFalseIfNot(
             [ValueSource(nameof(TestData))] (Vector3Int runningTargetPos, bool isNotReached) data)
         {
+            //Arrange
             var gridCreator = new GameObject().AddComponent<GridCreator>();
             gridCreator.SetValues(5, 5, 5, 1,
                 AssetDatabase.LoadAssetAtPath<Point>("Assets/Prefabs/Point.prefab"));
@@ -40,11 +41,13 @@ namespace Tests.PlayMode
             
             yield return new WaitForSeconds(1);
 
+            //Act
             runningTarget.transform.position = gridCreator
                 .Grid[data.runningTargetPos.x, data.runningTargetPos.y, data.runningTargetPos.z].transform.position;
 
             yield return new WaitForSeconds(1);
 
+            //Assert
             Assert.AreEqual(data.isNotReached, pathHandler.IsEndNotReached(gridCreator.Grid[0, 1, 0]));
         }
     }

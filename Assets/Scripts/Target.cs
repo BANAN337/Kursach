@@ -5,7 +5,7 @@ public abstract class Target : MonoBehaviour
 {
     [SerializeField] protected GridCreator gridCreator;
     protected Move Movement;
-    protected Point _currentPoint;
+    protected Point CurrentPoint;
     public bool canMove = true;
     public GridCreator GridCreator => gridCreator;
 
@@ -25,11 +25,11 @@ public abstract class Target : MonoBehaviour
             if (distance < closestDistance && !point.IsNotValid)
             {
                 closestDistance = distance;
-                _currentPoint = point;
+                CurrentPoint = point;
             }
         }
 
-        return _currentPoint;
+        return CurrentPoint;
     }
 
     public abstract void StartMovement();
